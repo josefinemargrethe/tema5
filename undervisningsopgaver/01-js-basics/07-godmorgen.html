@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <script>
+        let tid = new Date().getHours();
+
+
+        //        Godmorgen mellem kl. 5 og kl 10,
+        //Goddag mellem kl 10 og 18,
+        //Godaften mellem 18 og 24 og
+        //Godnat mellem 24 og 5.
+
+
+        if (tid >= 5 && tid <= 10) {
+            alert("Godmorgen");
+        }
+
+        if (tid > 10 && tid <= 18) {
+            alert("Goddag");
+        }
+
+        if (tid > 18 && tid <= 23) {
+            alert("Godaften");
+        }
+
+        if (tid > 0 && tid < 5) {
+            alert("Godnat");
+        }
+
+        console.log(tid);
+    </script>
+</body>
+
+</html>
