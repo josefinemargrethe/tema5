@@ -6,23 +6,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <style>
+        body {
+            margin: 0;
+        }
+
         img {
             width: 100%;
         }
 
-        .retter {
-            border: 1px solid #000;
-            padding: 10px;
+        .header {
+            height: 250px;
+            width: 100;
+            line-height: 250px;
+            background: hotpink;
+            text-align: center;
         }
+
+        h1 {
+            margin-top: 0;
+            font-family: 'Helvetica';
+            font-weight: 300;
+            font-size: 3em;
+        }
+
+        .retter {
+            border: outset hotpink;
+            padding: 10px;
+            margin: 1em;
+        }
+
+        .menu {
+            text-align: center;
+        }
+
+        .valgt {
+            background-color: hotpink;
+            transition: ease-in 0.5s;
+        }
+
+        h2 {
+            text-align: center;
+            color: hotpink;
+            font-family: 'Helvetica';
+        }
+
+        button {
+            padding: 1em;
+            margin-bottom: 5em;
+            font-family: 'Helvetica';
+            font-weight: 300;
+
+        }
+
+        p {
+            font-family: 'Helvetica';
+            font-weight: 300;
+
+        }
+
+        h3 {
+            font-family: 'Helvetica';
+            font-weight: 600;
+
+        }
+
 
         .data-container {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
+            padding: 1em;
         }
 
         @media only screen and (min-width:600px) {
             .data-container {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            h1 {
+                font-size: 4em;
             }
         }
 
@@ -35,15 +96,32 @@
 </head>
 
 <body>
+    <header>
+        <div class="header">
+            <h1>Bistro Babushka</h1>
+        </div>
+
+        <h2>Menu</h2>
+        <nav class="menu">
+            <button class="filter valgt" data-hold="alle">Alle</button>
+            <button class="filter" data-hold="forretter">Forretter</button>
+            <button class="filter" data-hold="hovedretter">Hovedretter</button>
+            <button class="filter" data-hold="desserter">Desserter</button>
+            <button class="filter" data-hold="drikkevarer">Drikkevarer</button>
+            <!--<button class="filter" data-hold="sideorders">Sideorders</button>-->
+        </nav>
+    </header>
+
     <section class="data-container"></section>
 
     <script>
         let alleRetter = [];
+        let filter = "alle";
 
 
         document.addEventListener("DOMContentLoaded", hentJson);
 
-
+        const modtager = document.querySelector(".data-container");
 
         async function hentJson() {
 
@@ -58,19 +136,34 @@
         }
 
         function visRetter() {
-
-            const modtager = document.querySelector(".data-container");
+            modtager.innerHTML = "";
 
             alleRetter.forEach(ret => {
-                modtager.innerHTML += `
+                if (filter == "alle" || filter == ret.kategori) {
+                    modtager.innerHTML += `
                     <article class="retter">
                         <img src="img/small/${ret.billede}-sm.jpg">
-                        <h2>${ret.navn}</h2>
+                        <h3>${ret.navn}</h3>
                         <p>${ret.kort}</p>
-                        <p>Pris: ${ret.pris},-</p>
+                        <p>Pris: <strong>${ret.pris},-</strong></p>
                     </article>
                 `;
+                }
             })
+        }
+
+        document.querySelectorAll(".filter").forEach(elm => {
+            elm.addEventListener("click", filtrering);
+        })
+
+        function filtrering() {
+            filter = this.getAttribute("data-hold");
+            document.querySelector("h2").textContent = this.textContent;
+            document.querySelectorAll(".filter").forEach(elm => {
+                elm.classList.remove("valgt");
+            })
+            this.classList.add("valgt");
+            visRetter();
         }
 
         visRetter();
