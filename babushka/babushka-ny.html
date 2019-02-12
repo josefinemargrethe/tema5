@@ -120,6 +120,19 @@
             padding: 1em;
         }
 
+
+        footer {
+            font-family: 'Helvetica';
+            font-weight: 200;
+            font-size: 0.8rem;
+            background-color: #ffd769;
+        }
+
+        footer section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+padding: 1vw 2vw;        }
+
         @media only screen and (min-width:600px) {
             .data-container {
                 grid-template-columns: repeat(2, 1fr);
@@ -128,10 +141,15 @@
             h1 {
                 font-size: 4em;
             }
+
         }
 
         @media only screen and (min-width:1000px) {
             .data-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            footer section {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
@@ -161,7 +179,16 @@
         </nav>
     </header>
 
-    <section class="data-container"></section>
+    <main>
+        <section class="data-container"></section>
+    </main>
+
+    <footer>
+        <section>
+            <div>Bistro Babushka <br>Grønnegade 97<br>1234 København K </div>
+            <div>Åbningstider: <br> Mandag – fredag 10:30 – 22:00<br>Lørdag 12:00 – 23:00</div>
+        </section>
+    </footer>
 
     <script>
         let alleRetter = [];
@@ -200,7 +227,7 @@
                 `;
                     modtager.insertAdjacentHTML("beforeend", template);
                     modtager.lastElementChild.addEventListener("click", () => {
-                        visSingle(ret);
+                        location.href = "singleView.html?id=" + ret.id;
                     });
 
                     function visSingle(ret) {
@@ -210,7 +237,6 @@
                                 <img src="img/large/${ret.billede}.jpg" alt="${ret.navn}">
                                 <p>${ret.lang}</p>
                                 <p>Oprindelse: ${ret.oprindelse}</p>
-                                <p>Pris: <strong>${ret.pris}</strong>,-</p>
                             </article>
                                `;
                         document.querySelector("#popup").style.display = "block";

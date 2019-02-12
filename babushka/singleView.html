@@ -51,7 +51,7 @@
 
         #tilbage button {
             font-size: 1rem;
-            padding: 1rem 1rem;
+            padding: 0.5rem 0.5rem;
             color: #ffd769;
             cursor: pointer;
         }
@@ -61,8 +61,18 @@
             background-color: white;
         }
 
-        .singleret img {
-            max-width: 70%;
+        @media only screen and (min-width:600px) {
+
+            #tilbage button {
+                font-size: 1rem;
+                padding: 1rem 1rem;
+                color: #ffd769;
+                cursor: pointer;
+            }
+
+            img {
+                max-width: 100%;
+            }
         }
 
     </style>
@@ -71,7 +81,7 @@
 <body>
     <main id="single">
         <div id="tilbage">
-            <button>⇦</button>
+            <button>⬅</button>
         </div>
         <section id="indhold"></section>
     </main>
