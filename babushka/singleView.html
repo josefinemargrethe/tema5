@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #ffd769;
+
+        }
+
+        img {
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ffd769;
+            font-family: 'Helvetica';
+        }
+
+        p {
+            font-family: 'Helvetica';
+            font-weight: 300;
+
+        }
+
+        #liste {
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: hsla(72, 15%, 48%, 0.5);
+            overflow: scroll;
+        }
+
+        #indhold {
+            min-height: 50vh;
+            background-color: white;
+            width: 75vw;
+            margin: 4rem auto;
+        }
+
+        #tilbage {
+            left: 2rem;
+            top: 1rem;
+            position: fixed;
+        }
+
+        #tilbage button {
+            font-size: 1rem;
+            padding: 1rem 1rem;
+            color: #ffd769;
+            cursor: pointer;
+        }
+
+        .singleret {
+            padding: 1vw;
+            background-color: white;
+        }
+
+        .singleret img {
+            max-width: 70%;
+        }
+
+    </style>
+</head>
+
+<body>
+    <main id="single">
+        <div id="tilbage">
+            <button>⇦</button>
+        </div>
+        <section id="indhold"></section>
+    </main>
+
+    <script>
+        let urlParams = new URLSearchParams(window.location.search);
+        let id = urlParams.get("id");
+        let alleRetter = [];
+        let filter = "alle";
+
+
+
+        document.addEventListener("DOMContentLoaded", hentJson);
+
+        async function hentJson() {
+
+            const myJson = await fetch("https://mandalskeawebspace.dk/claude_php/clean_up_spreadsheet.php?id=1jxxxFoWBuMJ1qhQ9BQIAyKHmP38XtAF9_sQr0xo5JLo");
+
+            console.log(myJson);
+
+            alleRetter = await myJson.json();
+            console.log(alleRetter);
+
+            visRetter();
+        }
+
+        function visRetter() {
+            let modtager = document.querySelector("#indhold");
+
+            modtager.innerHTML = "";
+
+            alleRetter.forEach(ret => {
+                if (ret.id == id) {
+                    let template = `
+                    <article class="singleret">
+                                <h2>${ret.navn}</h2>
+                                <img src="img/large/${ret.billede}.jpg" alt="${ret.navn}">
+                                <p>${ret.lang}</p>
+                                <p>Oprindelse: ${ret.oprindelse}</p>
+                                <p>Pris: <strong>${ret.pris}</strong>,-</p>
+                            </article>
+                `;
+                    modtager.insertAdjacentHTML("beforeend", template);
+                    document.querySelector("#tilbage button").addEventListener("click", () => {
+                        location.href = "babushka-nyt.html";
+                    })
+
+
+                };
+            })
+        }
+
+    </script>
+</body>
+
+</html>
