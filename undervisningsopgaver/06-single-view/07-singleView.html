@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        *,
+        body * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #single {
+            width: 100vw;
+            height: 100vh;
+            background-color: hsla(72, 15%, 48%, 0.5);
+            overflow: scroll;
+        }
+
+        #indhold {
+            min-height: 50vh;
+            background-color: white;
+            width: 75vw;
+            margin: 4rem auto;
+        }
+
+        #tilbage {}
+
+        #tilbage button {
+            font-size: 1rem;
+            padding: 1rem 1rem;
+            color: #ffd769;
+        }
+    </style>
+</head>
+
+<body>
+    <main id="single">
+        <div id="tilbage">
+            <button>
+                << </button> </div> <section id="indhold">
+                    </section>
+    </main>
+
+    <script>
+        let urlParams = new URLSearchParams(window.location.search);
+        let github = urlParams.get("github");
+        let allePersoner = [];
+        let filter = "alle";
+
+
+        document.addEventListener("DOMContentLoaded", hentJson);
+
+
+        async function hentJson() {
+
+            const myJson = await fetch("https://mandalskeawebspace.dk/claude_php/clean_up_spreadsheet.php?id=1OLlD_GRoz71piHvnW306omRAyHS7vtLOILQt-K0YF_c");
+
+            console.log(myJson);
+
+            allePersoner = await myJson.json();
+            console.log(allePersoner);
+
+            allePersoner.sort((a, b) => {
+                return a.navn.localeCompare(b.navn);
+            });
+
+            visPersoner();
+        }
+
+        function visPersoner() {
+            let modtager = document.querySelector("#indhold");
+
+            modtager.innerHTML = "";
+
+            allePersoner.forEach(person => {
+                if (person.github == github) {
+                    let template = `
+                    <article class="person">
+                                <h2>${person.navn}</h2>
+                                <img class="billede" src="${person.billede}" alt="${person.navn}">
+                                <p>Hold: ${person.hold}, Alder: ${person.alder}</p>
+                                <h3>${person.navn}'s historie:</h3>
+                                <p>${person.historie}</p>
+                            </article>
+                `;
+                    modtager.insertAdjacentHTML("beforeend", template);
+                    document.querySelector("#tilbage button").addEventListener("click", () => {
+                        location.href = "05-kald.html";
+                    })
+                };
+
+
+            })
+
+        }
+    </script>
+</body>
+
+</html>
