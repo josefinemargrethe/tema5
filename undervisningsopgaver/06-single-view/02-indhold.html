@@ -22,12 +22,14 @@
 
         .personer {
             border: 1px solid #000;
-            padding: 10px;
+            margin: 10px;
+            padding: 1vw;
         }
 
         .data-container {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
+            padding: 2vw 10vw;
         }
 
         .menu {
@@ -54,6 +56,34 @@
             height: 100vh;
             position: fixed;
             background-color: hsla(72, 15%, 48%, 0.5);
+            /*            display: none;*/
+        }
+
+        .skjul {
+            display: none;
+        }
+
+        .vis {
+            display: block;
+        }
+
+        #indhold {
+            min-height: 50vh;
+            background-color: white;
+            width: 75vw;
+            margin: 4rem auto;
+        }
+
+        #luk {
+            position: fixed;
+            right: 2rem;
+            top: 0.5rem;
+        }
+
+        #luk button {
+            font-size: 1rem;
+            padding: 1rem 1rem;
+            color: #ffd769;
         }
 
         @media only screen and (min-width:600px) {
@@ -71,7 +101,12 @@
 </head>
 
 <body>
-    <div id="popup"></div>
+    <div class="skjul" id="popup">
+        <div id="luk">
+            <button>X</button>
+        </div>
+        <div id="indhold"></div>
+    </div>
     <header>
         <h1>Alle</h1>
         <nav class="menu">
