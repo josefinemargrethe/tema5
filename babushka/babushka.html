@@ -76,6 +76,43 @@
 
         }
 
+        #popup {
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            background-color: hsla(72, 15%, 48%, 0.5);
+            overflow: scroll;
+            display: none;
+        }
+
+        #indhold {
+            min-height: 50vh;
+            background-color: white;
+            width: 75vw;
+            margin: 4rem auto;
+        }
+
+        #luk {
+            position: fixed;
+            right: 2rem;
+            top: 0.5rem;
+        }
+
+        #luk button {
+            font-size: 1rem;
+            padding: 1rem 1rem;
+            color: #ffd769;
+            cursor: pointer;
+        }
+
+        .singleret {
+            padding: 1vw;
+        }
+
+        .singleret img {
+            max-width: 50%;
+        }
 
         .data-container {
             display: grid;
@@ -102,6 +139,12 @@
 </head>
 
 <body>
+    <div id="popup">
+        <div id="luk">
+            <button>✕</button>
+        </div>
+        <div id="indhold"></div>
+    </div>
     <header>
         <div class="header">
             <h1>Bistro Babushka</h1>
@@ -147,14 +190,36 @@
 
             alleRetter.forEach(ret => {
                 if (filter == "alle" || filter == ret.kategori) {
-                    modtager.innerHTML += `
+                    let template = `
                     <article class="retter">
-                        <img src="img/small/${ret.billede}-sm.jpg">
+                        <img src="img/small/${ret.billede}-sm.jpg" alt="${ret.navn}">
                         <h3>${ret.navn}</h3>
                         <p>${ret.kort}</p>
                         <p>Pris: <strong>${ret.pris},-</strong></p>
                     </article>
                 `;
+                    modtager.insertAdjacentHTML("beforeend", template);
+                    modtager.lastElementChild.addEventListener("click", () => {
+                        visSingle(ret);
+                    });
+
+                    function visSingle(ret) {
+                        document.querySelector("#indhold").innerHTML = `
+                            <article class="singleret">
+                                <h2>${ret.navn}</h2>
+                                <img src="img/large/${ret.billede}.jpg" alt="${ret.navn}">
+                                <p>${ret.lang}</p>
+                                <p>Oprindelse: ${ret.oprindelse}</p>
+                            </article>
+                               `;
+                        document.querySelector("#popup").style.display = "block";
+                        document.querySelector("#popup #luk").addEventListener("click", close);
+                    }
+
+                    function close() {
+                        document.querySelector("#popup").style.display = "none";
+                    }
+
                 }
             })
         }
